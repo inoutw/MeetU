@@ -3,62 +3,34 @@
  */
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, ListView, TouchableHighlight, Image, ScrollView, } from 'react-native';
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import ToolTip from 'react-native-tooltip';
-import Footer from './footer';
 
-var taskArr = {
-    "task": [{
-        "priority": 1,
-        "desc": "Content change",
-        "timestamp": 5,
-        "subtask": [{
-            "desc": "content code",
-            "timestamp": 2
-        }, {
-            "desc": "merge content",
-            "timestamp": 2
-        }, {
-            "desc": "test content",
-            "timestamp": 1
-        }]
-    },
-    {
-        "priority": 1,
-        "desc": "GTM Change",
-        "timestamp": 5,
-        "subtask": [{
-            "desc": "GTM code",
-            "timestamp": 2
-        }, {
-            "desc": "merge GTM",
-            "timestamp": 2
-        }, {
-            "desc": "test GTM",
-            "timestamp": 1
-        }]
-    },
-    {
-        "priority": 3,
-        "desc": "Email change",
-        "timestamp": 4,
-    }]
-};
+import {store} from '../store/index.js';
+import {deleteTask} from '../actions/actionCreators.js';
+
 var priorIconMap = {
-    1: require('./Images.xcassets/paperclip1.png'),
-    3: require('./Images.xcassets/paperclip3.png'),
+    1: require('../static/images/paperclip1.png'),
+    3: require('../static/images/paperclip3.png'),
 
 }
-export default class Body extends Component {
+class Body extends Component {
     constructor(props) {
         super(props);
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2)=>r1 !== r2});
-        console.log('footer data is ', Footer);
-        this.state = {
-            dataSource: ds.cloneWithRows(taskArr.task),
-        };
+    }
+    _deleteTask(taskid){
+        store.dispatch(deleteTask(taskid));
     }
     render() {
+        console.log('Body:: store.getState() is ', store.getState());
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2)=>r1 !== r2});
+        let taskArr = store.getState().tasks;
+        console.log("Body:: taskArr is  ", taskArr);
+        this.state = {
+            dataSource: ds.cloneWithRows(taskArr),
+        };
+
         return (
             <View style = {bodyStyle.listWrap}>
                 <ListView dataSource={this.state.dataSource}
@@ -69,6 +41,7 @@ export default class Body extends Component {
             </View>
         );
     }
+
     _renderRow(rowData) {
         var srcStr = priorIconMap[rowData.priority];
         var stampCount = rowData.timestamp, taskStamp = '';
@@ -86,11 +59,14 @@ export default class Body extends Component {
         }
 
         return (
-            <View style = {bodyStyle.rowWrap}>
+            <View style = {bodyStyle.rowWrap} key={rowData.taskid}>
                 <ToolTip
                     ref='theToolTip'
                     actions={[
-                      {text: '删除', onPress: () => { console.log('delete is pressed') }},
+                      {text: '删除', onPress: () => {
+                            //console.log('delete is pressed - cur row key is ', rowData.taskid);
+                            store.dispatch(deleteTask(rowData.taskid));
+                       }},
                     ]}
                     underlayColor='transparent'
                     arrowDirection='right'
@@ -110,8 +86,10 @@ export default class Body extends Component {
     _renderSeperator(sectionID, rowID, adjacentRowHighlighted){
         var subdesc = [];
 
-        if(taskArr.task[rowID].subtask){
-            for(let subitem of taskArr.task[rowID].subtask){
+        //console.log('Body:: _renderSeperator', this);
+        let taskArr = this.dataSource._dataBlob.s1;
+        if(taskArr[rowID].subtask){
+            for(let subitem of taskArr[rowID].subtask){
                 var subStampCount = subitem.timestamp, subTaskStamp = '';
                 for(var i=0; i< subStampCount; i++){
                     subTaskStamp += '';
@@ -146,6 +124,23 @@ export default class Body extends Component {
         return null;
     }
 }
+
+const mapStateToProps = (state) => {
+    console.log('Body:: state is', state);
+    return {
+        tasks: state.tasks
+    }
+}
+const mapDispatchToProps = (dispatch) => ({
+    //pass action creators down to a component
+    deleteTaskAction: bindActionCreators(deleteTask, dispatch)
+})
+//Connects Body to a Redux store.
+//params: mapStateToProps, mapDispatchToProps
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Body);
 
 const bodyStyle = StyleSheet.create({
     listWrap:{

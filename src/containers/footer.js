@@ -4,16 +4,23 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal} from 'react-native';
 
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-var textItems = {};
-export default class Footer extends Component{
+import {store} from '../store/index.js';
+
+import {addTask} from '../actions/actionCreators.js';
+
+
+class Footer extends Component{
     constructor(props) {
         super(props);
+        console.log('Footer:: this.props is ', this.props);
         this.state = {
             animationType: 'slide',
             modalVisible: false,
             transparent: true,
-            task:[],
+            priorityValue: 0,
         };
     }
 
@@ -21,28 +28,32 @@ export default class Footer extends Component{
         this.setState({modalVisible: visible});
     }
 
-    _updateText(text, index){
-        textItems[index] = text;
+    _addTask(){
+        console.log('Footer::this.refs.taskDesc._lastNativeText is ', this.refs.taskDesc._lastNativeText);
+        var newTask = {};
+        newTask['taskid'] = 100;
+        newTask['priority'] = this.state.priorityValue;
+        newTask['desc'] = this.refs.taskDesc._lastNativeText;
+        newTask['timestamp'] = 5;
+        //newTask['subtask'] =
+
+        store.dispatch(addTask(newTask));
+        console.log('Footer:: this.props are ', this.props);
+        this._setModalVisible(false);
     }
 
-    _addTask(){
-        this.state.task.push({
-            "priority": 1,
-            "desc": textItems['taskDesc'],
-            "timestamp": 5,
-            "subtask":[{
-                "desc": textItems['subtaskDesc1'],
-                "timestamp": 2
-            }, {
-                "desc": textItems['subtaskDesc2'],
-                "timestamp": 2
-            }, {
-                "desc": textItems['subtaskDesc3'],
-                "timestamp": 1
-            }]
-        });
-        console.log('added task is ',this.state.task);
-        this._setModalVisible(false);
+    _setProrityValue(pValue){
+        this.setState({priorityValue: pValue});
+    }
+
+    _priorPressStyle(borderColor='#fff'){
+        return {
+            padding: 2,
+            borderWidth: 1,
+            borderColor: borderColor,
+            borderRadius: 15,
+            marginTop: -3,
+        }
     }
 
     render(){
@@ -65,7 +76,7 @@ export default class Footer extends Component{
                                     <TextInput
                                         multiline={true}
                                         style={footerStyle.inputTask}
-                                        onEndEditing={(event)=>{this._updateText(event.nativeEvent.text, 'taskDesc')}}
+                                        ref='taskDesc'
                                     />
                                     <Text style={footerStyle.labelTaskTime}> x5</Text>
                                 </View>
@@ -76,21 +87,21 @@ export default class Footer extends Component{
                                     <View style={footerStyle.inputSubTaskLabelWrap}>
                                         <TextInput
                                             style={footerStyle.inputSubTask}
-                                            onEndEditing = {(event)=>this._updateText(event.nativeEvent.text, 'subtaskDesc1')}
+                                            ref='subtaskDesc1'
                                         />
                                         <Text> x2</Text>
                                     </View>
                                     <View style={footerStyle.inputSubTaskLabelWrap}>
                                         <TextInput
                                             style={footerStyle.inputSubTask}
-                                            onEndEditing = {(event)=>this._updateText(event.nativeEvent.text, 'subtaskDesc2')}
+                                            ref='subtaskDesc2'
                                         />
                                         <Text> x2</Text>
                                     </View>
                                     <View style={footerStyle.inputSubTaskLabelWrap}>
                                         <TextInput
                                             style={footerStyle.inputSubTask}
-                                            onEndEditing = {(event)=>this._updateText(event.nativeEvent.text, 'subtaskDesc3')}
+                                            ref='subtaskDesc3'
                                         />
                                         <Text> x1</Text>
                                     </View>
@@ -99,20 +110,25 @@ export default class Footer extends Component{
                             <View style = {footerStyle.labelPriorityWrap}>
                                 <Text style = {footerStyle.labelLeft}>重要程度:</Text>
                                 <View style = {footerStyle.colorLabelWrap}>
-                                    <TouchableHighlight style = {footerStyle.labelPriorPress}>
+                                    <TouchableHighlight style={this.state.priorityValue == 1? this._priorPressStyle('#f00'):this._priorPressStyle()}
+                                                        onPress={this._setProrityValue.bind(this,1)} underlayColor='#f00'>
                                         <View style = {[footerStyle.labelPriority,footerStyle.colorP1]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style = {footerStyle.labelPriorPress} >
+                                    <TouchableHighlight style={this.state.priorityValue == 2? this._priorPressStyle('orange'):this._priorPressStyle()}
+                                                        onPress={this._setProrityValue.bind(this,2)} underlayColor='orange'>
                                         <View style = {[footerStyle.labelPriority,footerStyle.colorP2]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style = {footerStyle.labelPriorPress}>
+                                    <TouchableHighlight style={this.state.priorityValue == 3? this._priorPressStyle('#00f'):this._priorPressStyle()}
+                                                        onPress={this._setProrityValue.bind(this,3)} underlayColor='#00f'>
                                         <View style = {[footerStyle.labelPriority,footerStyle.colorP3]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style = {footerStyle.labelPriorPress}>
+                                    <TouchableHighlight style={this.state.priorityValue == 4? this._priorPressStyle('green'):this._priorPressStyle()}
+                                                        onPress={()=>{this.setState({priorityValue:4})}} underlayColor='green'>
                                         <View style = {[footerStyle.labelPriority,footerStyle.colorP4]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style = {footerStyle.labelPriorPress}>
-                                        <View style = {[footerStyle.labelPriority,footerStyle.colorP5]}></View>
+                                    <TouchableHighlight style={this.state.priorityValue == 5? this._priorPressStyle('purple'):this._priorPressStyle()}
+                                                        onPress={this._setProrityValue.bind(this,5)} underlayColor='purple'>
+                                        <View style = {[footerStyle.labelPriority,footerStyle .colorP5]}></View>
                                     </TouchableHighlight>
                                 </View>
                             </View>
@@ -137,6 +153,18 @@ export default class Footer extends Component{
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    tasks: state.tasks
+});
+const mapDispatchToProps = (dispatch) => ({
+    addTaskAction: bindActionCreators(addTask, dispatch)
+})
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Footer);
+
 const footerStyle = StyleSheet.create({
     //add btn at first screen
     footerBtnWrap:{
@@ -267,7 +295,7 @@ const footerStyle = StyleSheet.create({
     labelPriorPress:{
         padding: 2,
         borderWidth: 1,
-        borderColor: '#fff',
+        borderColor: '#f00',
         borderRadius: 15,
         marginTop: -3,
     },
