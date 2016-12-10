@@ -12,7 +12,7 @@ import {store} from '../store/index.js';
 import {addTask} from '../actions/actionCreators.js';
 
 
-class Footer extends Component{
+class Footer extends Component {
     constructor(props) {
         super(props);
         console.log('Footer:: this.props is ', this.props);
@@ -28,25 +28,43 @@ class Footer extends Component{
         this.setState({modalVisible: visible});
     }
 
-    _addTask(){
-        console.log('Footer::this.refs.taskDesc._lastNativeText is ', this.refs.taskDesc._lastNativeText);
-        var newTask = {};
-        newTask['taskid'] = 100;
+    _getSubtask(targetObj, descInput, timeInput){
+        var subItem = {};
+        if(descInput){
+            console.log('Footer:descInput is ', descInput);
+            subItem = {
+                'desc': descInput,
+                'timestamp': timeInput
+            }
+            targetObj['subtask'].push(subItem);
+        }
+        return targetObj;
+    }
+
+    _addTask() {
+        var newTask={}, taskidArr = [];
+        for (item of store.getState().tasks) {
+            taskidArr.push(item.taskid);
+        }
+        var maxTaskid = Math.max(...taskidArr);
+        newTask['taskid'] = maxTaskid + 1;
         newTask['priority'] = this.state.priorityValue;
         newTask['desc'] = this.refs.taskDesc._lastNativeText;
         newTask['timestamp'] = 5;
-        //newTask['subtask'] =
+        newTask['subtask'] = [];
+        this._getSubtask(newTask, this.refs.subtaskDesc1._lastNativeText, 2);
+        this._getSubtask(newTask, this.refs.subtaskDesc2._lastNativeText, 2);
+        this._getSubtask(newTask, this.refs.subtaskDesc3._lastNativeText, 1);
 
         store.dispatch(addTask(newTask));
-        console.log('Footer:: this.props are ', this.props);
         this._setModalVisible(false);
     }
 
-    _setProrityValue(pValue){
+    _setProrityValue(pValue) {
         this.setState({priorityValue: pValue});
     }
 
-    _priorPressStyle(borderColor='#fff'){
+    _priorPressStyle(borderColor = '#fff') {
         return {
             padding: 2,
             borderWidth: 1,
@@ -56,11 +74,11 @@ class Footer extends Component{
         }
     }
 
-    render(){
+    render() {
         var modalBg = {
             backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
         };
-        var innerModalBg = this.state.transparent ? { backgroundColor: '#fff', padding: 20 } : null;
+        var innerModalBg = this.state.transparent ? {backgroundColor: '#fff', padding: 20} : null;
         return (
             <View>
                 <Modal
@@ -70,9 +88,9 @@ class Footer extends Component{
                     onRequestClose={() => {this._setModalVisible(false)}}>
                     <View style={[footerStyle.modalContainer, modalBg]}>
                         <View style={[footerStyle.modalView, innerModalBg]}>
-                            <View style = {footerStyle.addTaskWrap}>
-                                <Text style = {footerStyle.labelLeft}>Task: </Text>
-                                <View style = {footerStyle.inputTaskLabelWrap}>
+                            <View style={footerStyle.addTaskWrap}>
+                                <Text style={footerStyle.labelLeft}>Task: </Text>
+                                <View style={footerStyle.inputTaskLabelWrap}>
                                     <TextInput
                                         multiline={true}
                                         style={footerStyle.inputTask}
@@ -81,9 +99,9 @@ class Footer extends Component{
                                     <Text style={footerStyle.labelTaskTime}> x5</Text>
                                 </View>
                             </View>
-                            <View style = {footerStyle.subTaskWrap}>
-                                <Text style = {footerStyle.labelLeft}>Taskslice: </Text>
-                                <View style = {footerStyle.subInputWrap}>
+                            <View style={footerStyle.subTaskWrap}>
+                                <Text style={footerStyle.labelLeft}>Taskslice: </Text>
+                                <View style={footerStyle.subInputWrap}>
                                     <View style={footerStyle.inputSubTaskLabelWrap}>
                                         <TextInput
                                             style={footerStyle.inputSubTask}
@@ -107,46 +125,52 @@ class Footer extends Component{
                                     </View>
                                 </View>
                             </View>
-                            <View style = {footerStyle.labelPriorityWrap}>
-                                <Text style = {footerStyle.labelLeft}>重要程度:</Text>
-                                <View style = {footerStyle.colorLabelWrap}>
-                                    <TouchableHighlight style={this.state.priorityValue == 1? this._priorPressStyle('#f00'):this._priorPressStyle()}
-                                                        onPress={this._setProrityValue.bind(this,1)} underlayColor='#f00'>
-                                        <View style = {[footerStyle.labelPriority,footerStyle.colorP1]}></View>
+                            <View style={footerStyle.labelPriorityWrap}>
+                                <Text style={footerStyle.labelLeft}>重要程度:</Text>
+                                <View style={footerStyle.colorLabelWrap}>
+                                    <TouchableHighlight
+                                        style={this.state.priorityValue == 1? this._priorPressStyle('#f00'):this._priorPressStyle()}
+                                        onPress={this._setProrityValue.bind(this,1)} underlayColor='#f00'>
+                                        <View style={[footerStyle.labelPriority,footerStyle.colorP1]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style={this.state.priorityValue == 2? this._priorPressStyle('orange'):this._priorPressStyle()}
-                                                        onPress={this._setProrityValue.bind(this,2)} underlayColor='orange'>
-                                        <View style = {[footerStyle.labelPriority,footerStyle.colorP2]}></View>
+                                    <TouchableHighlight
+                                        style={this.state.priorityValue == 2? this._priorPressStyle('orange'):this._priorPressStyle()}
+                                        onPress={this._setProrityValue.bind(this,2)} underlayColor='orange'>
+                                        <View style={[footerStyle.labelPriority,footerStyle.colorP2]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style={this.state.priorityValue == 3? this._priorPressStyle('#00f'):this._priorPressStyle()}
-                                                        onPress={this._setProrityValue.bind(this,3)} underlayColor='#00f'>
-                                        <View style = {[footerStyle.labelPriority,footerStyle.colorP3]}></View>
+                                    <TouchableHighlight
+                                        style={this.state.priorityValue == 3? this._priorPressStyle('#00f'):this._priorPressStyle()}
+                                        onPress={this._setProrityValue.bind(this,3)} underlayColor='#00f'>
+                                        <View style={[footerStyle.labelPriority,footerStyle.colorP3]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style={this.state.priorityValue == 4? this._priorPressStyle('green'):this._priorPressStyle()}
-                                                        onPress={()=>{this.setState({priorityValue:4})}} underlayColor='green'>
-                                        <View style = {[footerStyle.labelPriority,footerStyle.colorP4]}></View>
+                                    <TouchableHighlight
+                                        style={this.state.priorityValue == 4? this._priorPressStyle('green'):this._priorPressStyle()}
+                                        onPress={()=>{this.setState({priorityValue:4})}} underlayColor='green'>
+                                        <View style={[footerStyle.labelPriority,footerStyle.colorP4]}></View>
                                     </TouchableHighlight>
-                                    <TouchableHighlight style={this.state.priorityValue == 5? this._priorPressStyle('purple'):this._priorPressStyle()}
-                                                        onPress={this._setProrityValue.bind(this,5)} underlayColor='purple'>
-                                        <View style = {[footerStyle.labelPriority,footerStyle .colorP5]}></View>
+                                    <TouchableHighlight
+                                        style={this.state.priorityValue == 5? this._priorPressStyle('purple'):this._priorPressStyle()}
+                                        onPress={this._setProrityValue.bind(this,5)} underlayColor='purple'>
+                                        <View style={[footerStyle.labelPriority,footerStyle .colorP5]}></View>
                                     </TouchableHighlight>
                                 </View>
                             </View>
-                            <View style = {footerStyle.modalBtnWrap}>
+                            <View style={footerStyle.modalBtnWrap}>
                                 <TouchableHighlight onPress={this._setModalVisible.bind(this,false)}
-                                                    style = {footerStyle.btnCancel}>
+                                                    style={footerStyle.btnCancel}>
                                     <Text>取消</Text>
                                 </TouchableHighlight>
-                                <TouchableHighlight style = {footerStyle.btnSave} onPress = {()=>{this._addTask(); this._setModalVisible.bind(this, false)}}>
-                                    <Text style = {footerStyle.textSave}>保存</Text>
+                                <TouchableHighlight style={footerStyle.btnSave}
+                                                    onPress={()=>{this._addTask(); this._setModalVisible.bind(this, false)}}>
+                                    <Text style={footerStyle.textSave}>保存</Text>
                                 </TouchableHighlight>
                             </View>
                         </View>
                     </View>
                 </Modal>
-                <View style  = {footerStyle.footerBtnWrap}>
-                    <TouchableHighlight style = {footerStyle.footerBtn} onPress={this._setModalVisible.bind(this, true)}>
-                        <Text style = {footerStyle.footerText}>+</Text>
+                <View style={footerStyle.footerBtnWrap}>
+                    <TouchableHighlight style={footerStyle.footerBtn} onPress={this._setModalVisible.bind(this, true)}>
+                        <Text style={footerStyle.footerText}>+</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -167,11 +191,11 @@ export default connect(
 
 const footerStyle = StyleSheet.create({
     //add btn at first screen
-    footerBtnWrap:{
+    footerBtnWrap: {
         flexDirection: 'row',
         justifyContent: 'center',
     },
-    footerBtn:{
+    footerBtn: {
         width: 60,
         height: 30,
         backgroundColor: '#D00000',
@@ -182,7 +206,7 @@ const footerStyle = StyleSheet.create({
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
     },
-    footerText:{
+    footerText: {
         color: 'white',
         fontSize: 32,
         fontWeight: '300',
@@ -197,13 +221,13 @@ const footerStyle = StyleSheet.create({
     modalView: {
         alignItems: 'flex-start',
     },
-    addTaskWrap:{
+    addTaskWrap: {
         flexDirection: 'row',
     },
-    labelLeft:{
+    labelLeft: {
         flex: 1,
     },
-    inputTask:{
+    inputTask: {
         height: 56,
         borderWidth: 0.5,
         borderColor: '#aaa',
@@ -212,21 +236,21 @@ const footerStyle = StyleSheet.create({
         padding: 4,
         marginRight: 3,
     },
-    subTaskWrap:{
+    subTaskWrap: {
         flexDirection: 'row',
         marginTop: 12,
     },
-    inputTaskLabelWrap:{
+    inputTaskLabelWrap: {
         flexDirection: 'row',
         flex: 4,
     },
-    inputSubTaskLabelWrap:{
+    inputSubTaskLabelWrap: {
         flexDirection: 'row',
     },
-    subInputWrap:{
+    subInputWrap: {
         flex: 4,
     },
-    inputSubTask:{
+    inputSubTask: {
         height: 26,
         borderWidth: 0.5,
         borderColor: '#aaa',
@@ -236,37 +260,37 @@ const footerStyle = StyleSheet.create({
         flex: 1,
         marginRight: 3,
     },
-    labelPriorityWrap:{
+    labelPriorityWrap: {
         marginTop: 8,
         flexDirection: 'row',
     },
-    colorLabelWrap:{
+    colorLabelWrap: {
         flex: 4,
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginRight: 20,
     },
-    labelPriority:{
+    labelPriority: {
         width: 20,
         height: 20,
         borderRadius: 10,
     },
-    colorP1:{
+    colorP1: {
         backgroundColor: '#ff0000',
     },
-    colorP2:{
+    colorP2: {
         backgroundColor: 'orange',
     },
-    colorP3:{
+    colorP3: {
         backgroundColor: '#0000ff',
     },
-    colorP4:{
+    colorP4: {
         backgroundColor: 'green',
     },
-    colorP5:{
+    colorP5: {
         backgroundColor: 'purple',
     },
-    modalBtnWrap:{
+    modalBtnWrap: {
         marginTop: 30,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -278,21 +302,21 @@ const footerStyle = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        flex:1,
+        flex: 1,
     },
-    btnSave:{
+    btnSave: {
         borderRadius: 5,
         backgroundColor: '#ff0000',
         height: 40,
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 15,
-        flex:1,
+        flex: 1,
     },
     textSave: {
         color: '#fff',
     },
-    labelPriorPress:{
+    labelPriorPress: {
         padding: 2,
         borderWidth: 1,
         borderColor: '#f00',

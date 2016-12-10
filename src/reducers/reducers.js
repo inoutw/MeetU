@@ -11,9 +11,11 @@ const initailTaskState = [{
         "desc": "Content change",
         "timestamp": 5,
         "subtask": [{
+            "subid": "1.1",
             "desc": "content code",
             "timestamp": 2
         }, {
+            "subid": "1.2",
             "desc": "merge content",
             "timestamp": 2
         }, {
