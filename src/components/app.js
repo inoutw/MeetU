@@ -7,7 +7,8 @@ import {bindActionCreators} from 'redux';
 
 import Header from './header.js';
 import TaskListContainer from '../containers/TaskListContianer.js';
-import Footer from '../containers/footer.js';
+import TaskForm from './TaskForm.js';
+import ColorDots from './ColorDots.js';
 
 export default class App extends Component{
     render(){
@@ -15,7 +16,8 @@ export default class App extends Component{
             <View style={styleMeet.container}>
                 <Header/>
                 <TaskListContainer/>
-                <Footer/>
+                <ColorDots/>
+                <TaskForm/>
             </View>
         );
     }

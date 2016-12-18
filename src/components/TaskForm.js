@@ -1,7 +1,8 @@
 /**
- * Created by qinai on 8/22/16.
+ * Created by qinai on 12/17/16.
  */
-import React, {Component} from 'react';
+
+import React, {Component, PropTypes} from 'react';
 import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal} from 'react-native';
 
 import {connect} from 'react-redux';
@@ -11,17 +12,22 @@ import {store} from '../store/index.js';
 
 import {addTask} from '../actions/actionCreators.js';
 
+import ColorDots from './ColorDots.js';
 
-class Footer extends Component {
+class TaskForm extends Component {
     constructor(props) {
         super(props);
-        console.log('Footer:: this.props is ', this.props);
         this.state = {
             animationType: 'slide',
             modalVisible: false,
             transparent: true,
-            priorityValue: 0,
         };
+    }
+    static propTypes = {
+        taskAction: PropTypes.func,
+    }
+    static get defaultProps(){
+
     }
 
     _setModalVisible(visible) {
@@ -31,7 +37,7 @@ class Footer extends Component {
     _getSubtask(targetObj, descInput, timeInput){
         var subItem = {};
         if(descInput){
-            console.log('Footer:descInput is ', descInput);
+            console.log('TaskForm:descInput is ', descInput);
             subItem = {
                 'desc': descInput,
                 'timestamp': timeInput
@@ -60,20 +66,13 @@ class Footer extends Component {
         this._setModalVisible(false);
     }
 
-    _setProrityValue(pValue) {
-        this.setState({priorityValue: pValue});
+    _selectPrior(priorOption, priorVal) {
+        console.log('TaskForm:: selectedIndex is ', priorVal);
+        this.setState({
+            priorVal,
+        });
+        console.log('TaskForm:: state.priorityValue is ', this.state);
     }
-
-    _priorPressStyle(borderColor = '#fff') {
-        return {
-            padding: 2,
-            borderWidth: 1,
-            borderColor: borderColor,
-            borderRadius: 15,
-            marginTop: -3,
-        }
-    }
-
     render() {
         var modalBg = {
             backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
@@ -128,31 +127,8 @@ class Footer extends Component {
                             <View style={footerStyle.labelPriorityWrap}>
                                 <Text style={footerStyle.labelLeft}>重要程度:</Text>
                                 <View style={footerStyle.colorLabelWrap}>
-                                    <TouchableHighlight
-                                        style={this.state.priorityValue == 1? this._priorPressStyle('#f00'):this._priorPressStyle()}
-                                        onPress={this._setProrityValue.bind(this,1)} underlayColor='#f00'>
-                                        <View style={[footerStyle.labelPriority,footerStyle.colorP1]}></View>
-                                    </TouchableHighlight>
-                                    <TouchableHighlight
-                                        style={this.state.priorityValue == 2? this._priorPressStyle('orange'):this._priorPressStyle()}
-                                        onPress={this._setProrityValue.bind(this,2)} underlayColor='orange'>
-                                        <View style={[footerStyle.labelPriority,footerStyle.colorP2]}></View>
-                                    </TouchableHighlight>
-                                    <TouchableHighlight
-                                        style={this.state.priorityValue == 3? this._priorPressStyle('#00f'):this._priorPressStyle()}
-                                        onPress={this._setProrityValue.bind(this,3)} underlayColor='#00f'>
-                                        <View style={[footerStyle.labelPriority,footerStyle.colorP3]}></View>
-                                    </TouchableHighlight>
-                                    <TouchableHighlight
-                                        style={this.state.priorityValue == 4? this._priorPressStyle('green'):this._priorPressStyle()}
-                                        onPress={()=>{this.setState({priorityValue:4})}} underlayColor='green'>
-                                        <View style={[footerStyle.labelPriority,footerStyle.colorP4]}></View>
-                                    </TouchableHighlight>
-                                    <TouchableHighlight
-                                        style={this.state.priorityValue == 5? this._priorPressStyle('purple'):this._priorPressStyle()}
-                                        onPress={this._setProrityValue.bind(this,5)} underlayColor='purple'>
-                                        <View style={[footerStyle.labelPriority,footerStyle .colorP5]}></View>
-                                    </TouchableHighlight>
+                                    <ColorDots options={['#f00', 'orange', '#00f', 'green', 'purple']}
+                                               onSelect={this._selectPrior.bind(this)}/>
                                 </View>
                             </View>
                             <View style={footerStyle.modalBtnWrap}>
@@ -178,9 +154,7 @@ class Footer extends Component {
     }
 }
 
-Footer.propTypes = {
 
-}
 const mapStateToProps = (state) => ({
     tasks: state.tasks
 });
@@ -190,7 +164,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Footer);
+)(TaskForm);
 
 const footerStyle = StyleSheet.create({
     //add btn at first screen
@@ -269,8 +243,6 @@ const footerStyle = StyleSheet.create({
     },
     colorLabelWrap: {
         flex: 4,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
         marginRight: 20,
     },
     labelPriority: {
