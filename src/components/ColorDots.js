@@ -25,24 +25,24 @@ export default class ColorDots extends Component {
             alignStyle: {flexDirection: 'row',justifyContent: 'space-around',}
         }
     }
-    _onSelect(selectedOption, selectedIndex){
-        console.log("ColorDots:: selectedOption is ", selectedOption);
+    _onSelect(selectedIndex, selectedOption){
         console.log("ColorDots:: selectedIndex is ", selectedIndex);
         this.setState({
-            selectedOption,
             selectedIndex,
+            selectedOption,
         });
         //why do this? Pass selected element to where it used.
-        this.props.onSelect(selectedOption, selectedIndex);
+        console.log("ColorDots:: this.props is ", this.props);
+        this.props.onSelect(selectedIndex, selectedOption);
     }
     render(){
         const {selectedIndex, borderStyle} = this.state;
 
         //bind this??
         const dotsDom = this.props.options.map(function(option, index){
-            const isSelected = selectedIndex == index;
+            const isSelected = this.state.selectedIndex == index;
             const style = isSelected? {borderColor: option}: borderStyle;
-            const _onSelectDot = this._onSelect.bind(this, option, index);
+            const _onSelectDot = this._onSelect.bind(this, index, option);
             return (
                 <TouchableHighlight
                     style={[dotsStyle.dotBorder, style]}

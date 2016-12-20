@@ -7,7 +7,7 @@ import {bindActionCreators} from 'redux';
 
 import Header from './header.js';
 import TaskListContainer from '../containers/TaskListContianer.js';
-import TaskForm from './TaskForm.js';
+import TaskFormContainer from '../containers/TaskFormContainer.js';
 import ColorDots from './ColorDots.js';
 
 export default class App extends Component{
@@ -17,7 +17,7 @@ export default class App extends Component{
                 <Header/>
                 <TaskListContainer/>
                 <ColorDots/>
-                <TaskForm/>
+                <TaskFormContainer/>
             </View>
         );
     }

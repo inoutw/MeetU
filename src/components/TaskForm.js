@@ -5,13 +5,6 @@
 import React, {Component, PropTypes} from 'react';
 import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal} from 'react-native';
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-
-import {store} from '../store/index.js';
-
-import {addTask} from '../actions/actionCreators.js';
-
 import ColorDots from './ColorDots.js';
 
 class TaskForm extends Component {
@@ -21,10 +14,12 @@ class TaskForm extends Component {
             animationType: 'slide',
             modalVisible: false,
             transparent: true,
+            priorVal: 0,
         };
     }
     static propTypes = {
-        taskAction: PropTypes.func,
+        tasks: PropTypes.array,
+        taskAction: PropTypes.func.isRequired,
     }
     static get defaultProps(){
 
@@ -49,12 +44,12 @@ class TaskForm extends Component {
 
     _addTask() {
         var newTask={}, taskidArr = [];
-        for (item of store.getState().tasks) {
+        for (item of this.props.tasks) {
             taskidArr.push(item.taskid);
         }
         var maxTaskid = Math.max(...taskidArr);
         newTask['taskid'] = maxTaskid + 1;
-        newTask['priority'] = this.state.priorityValue;
+        newTask['priority'] = this.state.priorVal;
         newTask['desc'] = this.refs.taskDesc._lastNativeText;
         newTask['timestamp'] = 5;
         newTask['subtask'] = [];
@@ -62,17 +57,18 @@ class TaskForm extends Component {
         this._getSubtask(newTask, this.refs.subtaskDesc2._lastNativeText, 2);
         this._getSubtask(newTask, this.refs.subtaskDesc3._lastNativeText, 1);
 
-        store.dispatch(addTask(newTask));
+        this.props.taskAction(newTask);
         this._setModalVisible(false);
     }
 
-    _selectPrior(priorOption, priorVal) {
-        console.log('TaskForm:: selectedIndex is ', priorVal);
-        this.setState({
-            priorVal,
+    _selectPrior(priorIndex){
+        //setState is asynchronous here, so trying to work with state directly if setState call won't work as the update
+        //won't necessarily run. Instead you can use the second argument to setState which is a callback:
+        this.setState({priorVal: priorIndex+1}, function(){
+            console.log('TaskForm:: this.state is ', this.state);
         });
-        console.log('TaskForm:: state.priorityValue is ', this.state);
     }
+
     render() {
         var modalBg = {
             backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
@@ -153,18 +149,7 @@ class TaskForm extends Component {
         )
     }
 }
-
-
-const mapStateToProps = (state) => ({
-    tasks: state.tasks
-});
-const mapDispatchToProps = (dispatch) => ({
-    addTaskAction: bindActionCreators(addTask, dispatch)
-})
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TaskForm);
+export default TaskForm;
 
 const footerStyle = StyleSheet.create({
     //add btn at first screen

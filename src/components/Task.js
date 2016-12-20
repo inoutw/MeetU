@@ -5,19 +5,17 @@ import React, {PropTypes} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import TaskToolTip from './TaskToolTip.js';
 
-const Task = ({ onClick, taskPrior, taskDesc, taskTimeStamp })=>{
+const Task = ({ task, taskAction })=>{
     var taskSymbalStamp = '';
-    for(var i=0; i< taskTimeStamp; i++){
+    for(var i=0; i< task.timestamp; i++){
         taskSymbalStamp += '';
     }
     return (
         <View style = {taskStyle.rowWrap}>
-            <TaskToolTip
-                onToolTipPress = {()=>onClick}
-                priorityNum = {taskPrior}
+            <TaskToolTip taskAction={taskAction} priorityNum = {task.priority} taskId={task.taskid}
             />
             <View style={taskStyle.rowCenter}>
-                <Text style={taskStyle.rowText}>{taskDesc}</Text>
+                <Text style={taskStyle.rowText}>{task.desc}</Text>
             </View>
             <View style={taskStyle.rowRight}>
                 <Text style = {taskStyle.rowMark}>{taskSymbalStamp}</Text>

@@ -14,12 +14,12 @@ var priorIconMap = {
     5: require('../static/images/paperclip5.png'),
 
 }
-const TaskToolTip = ({onToolTipPress, priorityNum}) => {
+const TaskToolTip = ({taskAction, priorityNum, taskId}) => {
     var imageSrc = priorIconMap[priorityNum];
     if(priorityNum>0){
         return (<ToolTip
             actions={[
-              {text: '删除', onPress: ()=>{onToolTipPress}},
+              {text: '删除', onPress: ()=>{taskAction(taskId)}},
             ]}
             underlayColor='transparent'
             arrowDirection='right'

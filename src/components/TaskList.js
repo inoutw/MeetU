@@ -12,11 +12,7 @@ const TaskList = ({tasks, taskAction}) => {
     };
     this._renderRow = (rowData) => {
         return (
-            <Task key={rowData.taskid}
-                  onClick={() => taskAction(rowData.taskid)}
-                  taskPrior={rowData.priority}
-                  taskDesc={rowData.desc}
-                  taskTimeStamp={rowData.timestamp}/>
+            <Task key={rowData.taskid} task={rowData} taskAction={taskAction}/>
         );
     }
     this._renderSeperator = (sectionID, rowID) => {
@@ -24,10 +20,7 @@ const TaskList = ({tasks, taskAction}) => {
         if(tasks[rowID].subtask){
             for(let subitem of tasks[rowID].subtask){
                 subdesc.push(
-                    <Task key={subitem.desc}
-                          taskPrior={0}
-                          taskDesc={subitem.desc}
-                          taskTimeStamp={subitem.timestamp}/>
+                    <Task key={subitem.desc} task={subitem}/>
                 )
             }
             return (<View key={`${sectionID}-${rowID}`} >{subdesc}</View>);
