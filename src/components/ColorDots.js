@@ -26,19 +26,18 @@ export default class ColorDots extends Component {
         }
     }
     _onSelect(selectedIndex, selectedOption){
-        console.log("ColorDots:: selectedIndex is ", selectedIndex);
+        //console.log("ColorDots:: selectedIndex is ", selectedIndex);
         this.setState({
             selectedIndex,
             selectedOption,
         });
         //why do this? Pass selected element to where it used.
-        console.log("ColorDots:: this.props is ", this.props);
+        //console.log("ColorDots:: this.props is ", this.props);
         this.props.onSelect(selectedIndex, selectedOption);
     }
     render(){
         const {selectedIndex, borderStyle} = this.state;
 
-        //bind this??
         const dotsDom = this.props.options.map(function(option, index){
             const isSelected = this.state.selectedIndex == index;
             const style = isSelected? {borderColor: option}: borderStyle;

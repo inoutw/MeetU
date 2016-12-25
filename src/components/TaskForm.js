@@ -75,74 +75,74 @@ class TaskForm extends Component {
         };
         var innerModalBg = this.state.transparent ? {backgroundColor: '#fff', padding: 20} : null;
         return (
-            <View>
+            <View style={{marginBottom: 10}}>
                 <Modal
                     animationType={this.state.animationType}
                     transparent={this.state.transparent}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this._setModalVisible(false)}}>
-                    <View style={[footerStyle.modalContainer, modalBg]}>
-                        <View style={[footerStyle.modalView, innerModalBg]}>
-                            <View style={footerStyle.addTaskWrap}>
-                                <Text style={footerStyle.labelLeft}>Task: </Text>
-                                <View style={footerStyle.inputTaskLabelWrap}>
+                    <View style={[formStyle.modalContainer, modalBg]}>
+                        <View style={[formStyle.modalView, innerModalBg]}>
+                            <View style={formStyle.addTaskWrap}>
+                                <Text style={formStyle.labelLeft}>Task: </Text>
+                                <View style={formStyle.inputTaskLabelWrap}>
                                     <TextInput
                                         multiline={true}
-                                        style={footerStyle.inputTask}
+                                        style={formStyle.inputTask}
                                         ref='taskDesc'
                                     />
-                                    <Text style={footerStyle.labelTaskTime}> x5</Text>
+                                    <Text style={formStyle.labelTaskTime}> x5</Text>
                                 </View>
                             </View>
-                            <View style={footerStyle.subTaskWrap}>
-                                <Text style={footerStyle.labelLeft}>Taskslice: </Text>
-                                <View style={footerStyle.subInputWrap}>
-                                    <View style={footerStyle.inputSubTaskLabelWrap}>
+                            <View style={formStyle.subTaskWrap}>
+                                <Text style={formStyle.labelLeft}>Taskslice: </Text>
+                                <View style={formStyle.subInputWrap}>
+                                    <View style={formStyle.inputSubTaskLabelWrap}>
                                         <TextInput
-                                            style={footerStyle.inputSubTask}
+                                            style={formStyle.inputSubTask}
                                             ref='subtaskDesc1'
                                         />
                                         <Text> x2</Text>
                                     </View>
-                                    <View style={footerStyle.inputSubTaskLabelWrap}>
+                                    <View style={formStyle.inputSubTaskLabelWrap}>
                                         <TextInput
-                                            style={footerStyle.inputSubTask}
+                                            style={formStyle.inputSubTask}
                                             ref='subtaskDesc2'
                                         />
                                         <Text> x2</Text>
                                     </View>
-                                    <View style={footerStyle.inputSubTaskLabelWrap}>
+                                    <View style={formStyle.inputSubTaskLabelWrap}>
                                         <TextInput
-                                            style={footerStyle.inputSubTask}
+                                            style={formStyle.inputSubTask}
                                             ref='subtaskDesc3'
                                         />
                                         <Text> x1</Text>
                                     </View>
                                 </View>
                             </View>
-                            <View style={footerStyle.labelPriorityWrap}>
-                                <Text style={footerStyle.labelLeft}>重要程度:</Text>
-                                <View style={footerStyle.colorLabelWrap}>
+                            <View style={formStyle.labelPriorityWrap}>
+                                <Text style={formStyle.labelLeft}>重要程度:</Text>
+                                <View style={formStyle.colorLabelWrap}>
                                     <ColorDots options={['#f00', 'orange', '#00f', 'green', 'purple']}
                                                onSelect={this._selectPrior.bind(this)}/>
                                 </View>
                             </View>
-                            <View style={footerStyle.modalBtnWrap}>
+                            <View style={formStyle.modalBtnWrap}>
                                 <TouchableHighlight onPress={this._setModalVisible.bind(this,false)}
-                                                    style={footerStyle.btnCancel}>
+                                                    style={formStyle.btnCancel}>
                                     <Text>取消</Text>
                                 </TouchableHighlight>
-                                <TouchableHighlight style={footerStyle.btnSave}
+                                <TouchableHighlight style={formStyle.btnSave}
                                                     onPress={()=>{this._addTask(); this._setModalVisible.bind(this, false)}}>
-                                    <Text style={footerStyle.textSave}>保存</Text>
+                                    <Text style={formStyle.textSave}>保存</Text>
                                 </TouchableHighlight>
                             </View>
                         </View>
                     </View>
                 </Modal>
-                <View style={footerStyle.footerBtnWrap}>
-                    <TouchableHighlight style={footerStyle.footerBtn} onPress={this._setModalVisible.bind(this, true)}>
-                        <Text style={footerStyle.footerText}>+</Text>
+                <View style={formStyle.BottomBtnWrap}>
+                    <TouchableHighlight style={formStyle.bottomBtn} onPress={this._setModalVisible.bind(this, true)}>
+                        <Text style={formStyle.addText}>+</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -151,13 +151,13 @@ class TaskForm extends Component {
 }
 export default TaskForm;
 
-const footerStyle = StyleSheet.create({
+const formStyle = StyleSheet.create({
     //add btn at first screen
-    footerBtnWrap: {
+    BottomBtnWrap: {
         flexDirection: 'row',
         justifyContent: 'center',
     },
-    footerBtn: {
+    bottomBtn: {
         width: 60,
         height: 30,
         backgroundColor: '#D00000',
@@ -168,7 +168,7 @@ const footerStyle = StyleSheet.create({
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
     },
-    footerText: {
+    addText: {
         color: 'white',
         fontSize: 32,
         fontWeight: '300',
@@ -229,26 +229,6 @@ const footerStyle = StyleSheet.create({
     colorLabelWrap: {
         flex: 4,
         marginRight: 20,
-    },
-    labelPriority: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-    },
-    colorP1: {
-        backgroundColor: '#ff0000',
-    },
-    colorP2: {
-        backgroundColor: 'orange',
-    },
-    colorP3: {
-        backgroundColor: '#0000ff',
-    },
-    colorP4: {
-        backgroundColor: 'green',
-    },
-    colorP5: {
-        backgroundColor: 'purple',
     },
     modalBtnWrap: {
         marginTop: 30,

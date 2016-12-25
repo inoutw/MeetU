@@ -2,17 +2,36 @@
  * Created by qinai on 8/22/16.
  */
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, Text, View, TextInput, } from 'react-native';
+import {StyleSheet, Text, View, TextInput, } from 'react-native';
+
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Header extends Component{
+    constructor(){
+        super();
+        this.weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    }
+    state = {
+        curTime: null,
+        curDay: null,
+    }
+    componentWillMount(){
+        setInterval(function(){
+            this.setState({
+                curDay: this.weekday[new Date().getDay()],
+                curTime: new Date().toLocaleString()
+            })
+        }.bind(this), 1000);
+    }
     render(){
+
         return (
             <View>
-                <Text style={headerStyle.marginBottom15}>Date:</Text>
-                <Text style={headerStyle.marginBottom10}>My Story:</Text>
-                <TextInput placeholder="enter your story"
-                           multiline={true}
-                           style={[headerStyle.inputStory, headerStyle.marginBottom10]}/>
+                <Text style={headerStyle.marginBottom15}><Ionicons name="ios-alarm" size={20} color="#23034C" /> {this.state.curDay} {this.state.curTime}</Text>
+                <View style={headerStyle.dailyDiv}>
+                    <Text style={headerStyle.daiyDigest}>Daily Digest:  Time is fliping!</Text>
+                </View>
             </View>
         );
     }
@@ -22,18 +41,20 @@ const headerStyle = StyleSheet.create({
     headerContainer:{
 
     },
-    marginBottom10:{
-        marginBottom: 10,
+    dailyDiv:{
+        marginBottom: 20,
+        borderBottomWidth: 3,
+        borderBottomColor: '#d9367f',
+        paddingBottom: 5,
+    },
+    daiyDigest:{
+        color: '#d9367f',
+        fontWeight: 'bold',
+
     },
     marginBottom15:{
         marginBottom: 15,
+        fontWeight: "600",
+        color: '#23034C',
     },
-    inputStory:{
-        height: 56,
-        borderWidth: 0.5,
-        borderColor: '#aaa',
-        flex: 0.8,
-        fontSize: 13,
-        padding: 4,
-    }
 });
