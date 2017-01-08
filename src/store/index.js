@@ -3,6 +3,7 @@
  */
 import { applyMiddleware, createStore } from 'redux';
 import createLogger from 'redux-logger';
+import thunk from 'redux-thunk';
 import combineReducers from '../reducers/index.js';
 
 const loggerMiddleware = createLogger();
@@ -10,7 +11,7 @@ const loggerMiddleware = createLogger();
 export let store = createStore(
     combineReducers,
     applyMiddleware(
-        loggerMiddleware,
+        thunk, loggerMiddleware
     ),
 );
 store.subscribe(() => {

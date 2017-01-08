@@ -14,7 +14,7 @@ import {addTask} from '../actions/actionCreators.js';
 
 
 const mapStateToProps = (state) => ({
-    tasks: state.tasks
+    tasks: state.tasks.tasks
 });
 const mapDispatchToProps = (dispatch) => ({
     taskAction: bindActionCreators(addTask, dispatch)

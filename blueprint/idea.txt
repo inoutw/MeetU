@@ -1,2 +1,9 @@
+Nice meet:
+
 What will be waiting for you after you finished your task?
 bonus plan.
+
+backgroundColor for header: rgba(238,238,238,1);
+
+http://simplelineicons.com/
+icon-paper-clip

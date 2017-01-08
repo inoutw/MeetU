@@ -2,9 +2,10 @@
  * Created by qinai on 11/20/16.
  */
 import React, {Component} from 'react';
-import {AppRegistry} from 'react-native';
+import {View} from 'react-native';
 
 import App from './components/app.js';
+import TabBar from './components/TabBar.js';
 import  {store} from './store/index.js';
 import {Provider} from 'react-redux';
 

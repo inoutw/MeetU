@@ -3,6 +3,7 @@
  */
 import React, {Component, PropTypes} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Funs extends Component{
     static propTypes = {
@@ -16,7 +17,7 @@ export default class Funs extends Component{
     render(){
         return (
             <View style={funStyle.funContainer}>
-                <Text style={funStyle.textWrap}>Have fun: {this.props.whatFun}</Text>
+                <Text style={funStyle.textWrap}><Ionicons name="ios-musical-notes" size={20}/> {this.props.whatFun}</Text>
             </View>
         );
     }
@@ -25,11 +26,11 @@ export default class Funs extends Component{
 const funStyle = StyleSheet.create({
     funContainer: {
         marginBottom: 20,
-        backgroundColor: 'pink',
+        backgroundColor: 'rgba(224,240,255,1)',
         height: 30,
     },
     textWrap: {
-        color: 'white',
+        color: '#3b7ed5',
         fontWeight: 'bold',
         lineHeight: 24,
         paddingLeft: 6,

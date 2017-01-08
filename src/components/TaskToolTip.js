@@ -16,10 +16,11 @@ var priorIconMap = {
 }
 const TaskToolTip = ({taskAction, priorityNum, taskId}) => {
     var imageSrc = priorIconMap[priorityNum];
+
     if(priorityNum>0){
         return (<ToolTip
             actions={[
-              {text: '删除', onPress: ()=>{taskAction(taskId)}},
+              {text: '删除', onPress: ()=>{console.log("TaskToolTip:: taskId is ", taskId);taskAction(taskId)}},
             ]}
             underlayColor='transparent'
             arrowDirection='right'

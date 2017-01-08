@@ -1,27 +1,15 @@
 /**
- * Created by qinai on 11/20/16.
+ * Created by qinai on 12/26/16.
  */
 import React, {Component} from 'react';
-import {StyleSheet, View, NavigatorIOS, TabBarIOS} from 'react-native';
+import {View, Text, TabBarIOS, StyleSheet, NavigatorIOS} from 'react-native';
 
-import TaskListContainer from '../containers/TaskListContianer.js';
-import TaskFormContainer from '../containers/TaskFormContainer.js';
-import WeekView from './WeekView.js';
-import MonthView from './MonthView.js';
-import YearView from './YearView.js';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
+import TaskListContainer from '../containers/TaskListContianer.js';
+import WeekView from './WeekView.js';
+import App from './app.js'
 
-class TabView extends Component{
-    render(){
-        return (
-            <View style={styleMeet.container}>
-                <TaskListContainer/>
-                <TaskFormContainer/>
-            </View>
-        );
-    }
-}
-export default class App extends Component{
+export default class TabBar extends Component{
     state = {
         selectedTab: 'dayTab',
         notifCount: 0,
@@ -34,13 +22,13 @@ export default class App extends Component{
             <NavigatorIOS
                 style={{flex:1}}
                 initialRoute={{
-                  component: TabView,
+                  component: TaskListContainer,
                   passProps: props,
                   title: pageText,
                   rightButtonIcon: this.state.gearIcon,
                 }}>
             </NavigatorIOS>
-        );
+         );
     };
     render(){
         return (
@@ -55,13 +43,7 @@ export default class App extends Component{
                           selectedTab: 'dayTab',
                         });
                       }}>
-                    <NavigatorIOS
-                        style={{flex:1}}
-                        initialRoute={{
-                          component: TabView,
-                          title: '当下',
-                        }}>
-                    </NavigatorIOS>
+                    {this._renderTab('TaskListContainer', 'Day')}
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     title="Week"
@@ -72,13 +54,7 @@ export default class App extends Component{
                           selectedTab: 'weekTab',
                         });
                       }}>
-                    <NavigatorIOS
-                        style={{flex:1}}
-                        initialRoute={{
-                          component: WeekView,
-                          title: '这周',
-                        }}>
-                    </NavigatorIOS>
+                    {this._renderTab('WeekView', 'Week')}
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     title="Month"
@@ -89,13 +65,7 @@ export default class App extends Component{
                           selectedTab: 'monthTab',
                         });
                       }}>
-                    <NavigatorIOS
-                        style={{flex:1}}
-                        initialRoute={{
-                          component: MonthView,
-                          title: '此月',
-                        }}>
-                    </NavigatorIOS>
+                    {this._renderTab('MonthView', 'Month')}
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     title="Year"
@@ -106,20 +76,14 @@ export default class App extends Component{
                           selectedTab: 'yearTab',
                         });
                       }}>
-                    <NavigatorIOS
-                        style={{flex:1}}
-                        initialRoute={{
-                          component: YearView,
-                          title: '今年',
-                        }}>
-                    </NavigatorIOS>
+                    {this._renderTab('YearView', 'Year')}
                 </Icon.TabBarItemIOS>
             </TabBarIOS>
         )
     }
 }
 
-const styleMeet = StyleSheet.create({
+const tabBarStyle = StyleSheet.create({
     tabContent: {
         flex: 1,
         alignItems: 'center',
@@ -129,23 +93,4 @@ const styleMeet = StyleSheet.create({
         color: 'white',
         margin: 50,
     },
-    container:{
-        flex: 1,
-        marginTop: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
-    },
-    // headerContainer:{
-    //     height: 75,
-    //     paddingTop: 20,
-    //     backgroundColor: 'rgba(98,176,255,1)',
-    // },
-    bodyContainer: {
-        flex:5,
-        marginTop: 5,
-        paddingLeft: 20,
-        paddingRight: 20,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-});
+})

@@ -70,19 +70,15 @@ class TaskForm extends Component {
     }
 
     render() {
-        var modalBg = {
-            backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
-        };
-        var innerModalBg = this.state.transparent ? {backgroundColor: '#fff', padding: 20} : null;
         return (
-            <View style={{marginBottom: 10}}>
+            <View style={{flex: 1}}>
                 <Modal
                     animationType={this.state.animationType}
                     transparent={this.state.transparent}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this._setModalVisible(false)}}>
-                    <View style={[formStyle.modalContainer, modalBg]}>
-                        <View style={[formStyle.modalView, innerModalBg]}>
+                    <View style={formStyle.modalContainer}>
+                        <View style={formStyle.modalView}>
                             <View style={formStyle.addTaskWrap}>
                                 <Text style={formStyle.labelLeft}>Task: </Text>
                                 <View style={formStyle.inputTaskLabelWrap}>
@@ -160,7 +156,7 @@ const formStyle = StyleSheet.create({
     bottomBtn: {
         width: 60,
         height: 30,
-        backgroundColor: '#D00000',
+        backgroundColor: '#EA4335',
         justifyContent: 'flex-end',
         alignItems: 'center',
         borderTopLeftRadius: 30,
@@ -179,9 +175,12 @@ const formStyle = StyleSheet.create({
     modalContainer: {
         flex: 1,
         justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalView: {
         alignItems: 'flex-start',
+        padding: 20,
+        backgroundColor: '#fff',
     },
     addTaskWrap: {
         flexDirection: 'row',

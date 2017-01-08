@@ -4,7 +4,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View, TextInput, } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default class Header extends Component{
@@ -16,21 +15,26 @@ export default class Header extends Component{
         curTime: null,
         curDay: null,
     }
+    _setCurTime(){
+        this.setState({
+            curDay: this.weekday[new Date().getDay()],
+            curTime: new Date().toLocaleString()
+        })
+    }
     componentWillMount(){
+        this._setCurTime();
         setInterval(function(){
-            this.setState({
-                curDay: this.weekday[new Date().getDay()],
-                curTime: new Date().toLocaleString()
-            })
+            this._setCurTime();
         }.bind(this), 1000);
     }
     render(){
-
         return (
             <View>
-                <Text style={headerStyle.marginBottom15}><Ionicons name="ios-alarm" size={20} color="#23034C" /> {this.state.curDay} {this.state.curTime}</Text>
+                <View style={headerStyle.topHeader}>
+                    <Text style={headerStyle.headerTime}><Ionicons name="ios-clock-outline" size={20} color="#eee" /> {this.state.curDay} {this.state.curTime}</Text>
+                </View>
                 <View style={headerStyle.dailyDiv}>
-                    <Text style={headerStyle.daiyDigest}>Daily Digest:  Time is fliping!</Text>
+                    <Text style={headerStyle.daiyDigest}><Ionicons name="ios-book-outline" size={20} color="#bbb" /> Time is fliping!</Text>
                 </View>
             </View>
         );
@@ -38,23 +42,25 @@ export default class Header extends Component{
 }
 
 const headerStyle = StyleSheet.create({
-    headerContainer:{
-
+    topHeader:{
+        marginBottom: 1,
+        
+    },
+    headerTime:{
+        fontWeight: "600",
+        color: '#fff',
+        textAlign: 'center',
+        lineHeight: 24,
     },
     dailyDiv:{
-        marginBottom: 20,
-        borderBottomWidth: 3,
-        borderBottomColor: '#d9367f',
-        paddingBottom: 5,
+        paddingTop: 5,
+        backgroundColor: '#fff',
     },
     daiyDigest:{
-        color: '#d9367f',
+        color: '#bbb',
         fontWeight: 'bold',
+        textAlign: 'center',
 
     },
-    marginBottom15:{
-        marginBottom: 15,
-        fontWeight: "600",
-        color: '#23034C',
-    },
+
 });
