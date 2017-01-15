@@ -4,8 +4,15 @@
 'use strict';
 
 import * as TYPES from './types.js';
-
+import {AsyncStorage} from 'react-native';
 export function addTask(task){
+    var taskArr = [];
+    AsyncStorage.getItem("tasks")
+        .then((result)=> {
+            taskArr = JSON.parse(result);
+            taskArr.push(task);
+            AsyncStorage.setItem("tasks", JSON.stringify(taskArr));
+        });
     return {
         type: TYPES.ADD_TASK,
         task
@@ -18,12 +25,18 @@ export function deleteTask(taskid){
         taskid
     };
 }
-
+/*
+ * v0: Async get tasks from remote url
 export const getTasks = () => ({
     type: TYPES.GET_TASKS
 })
 export const receiveTasks = (json) => {
-    console.log('Action creators-receiveTasks:: json is ', json)
+    console.log('Action creators-receiveTasks:: json is ', json);
+    AsyncStorage.setItem("tasks", JSON.stringify(json.tasks), ()=>{
+        AsyncStorage.getItem('tasks', (err, result) => {
+            console.log('actionCreators:: AsyncStorage result is',result);
+        });
+    });
     return {
         type: TYPES.RECEIVE_TASKS,
         tasks: json.tasks
@@ -40,7 +53,6 @@ export const fetchTasks = () => dispatch => {
     return fetch(`http://localhost:9997/tasks.json`)
         .then(response => response.json())
         .then(json => {
-            console.log("json is ", json);
             dispatch(receiveTasks(json))})
 }
 export const fetchTasksIfNeeded = () => (dispatch, getState) => {
@@ -48,4 +60,16 @@ export const fetchTasksIfNeeded = () => (dispatch, getState) => {
     if (shouldFetch(getState())) {
         return dispatch(fetchTasks())
     }
+}
+    */
+//v1: get tasks from AsyncStorage and dispatch a action to update the state in store
+export const getTasksFormStorage = () => (dispatch, getState) => { //? return a function with params dispatch and getState?
+    console.log('actioncreators:: getState() is ', getState());
+    AsyncStorage.getItem('tasks', (err, result) => {
+        //console.log('actionCreators:: AsyncStorage result is',result);
+        return dispatch({
+            type: TYPES.RECEIVE_TASKS,
+            tasks: JSON.parse(result)
+        })
+    });
 }

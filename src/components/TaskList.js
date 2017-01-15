@@ -86,7 +86,7 @@ const TaskList = ({tasks, deleteTask}) => {
     }
     this._renderSeperator = (sectionID, rowID) => {
         var subdesc = [];
-        if(tasks[rowID].subtask){
+        if(tasks[rowID].subtask && tasks[rowID].subtask.length > 0){
             for(let subitem of tasks[rowID].subtask){
                 subdesc.push(
                     <Task key={subitem.desc} task={subitem}/>

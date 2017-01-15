@@ -2,8 +2,15 @@ Nice meet:
 
 What will be waiting for you after you finished your task?
 bonus plan.
+todo 笔记
+我的文摘(摘选)
+文摘分享
+
 
 backgroundColor for header: rgba(238,238,238,1);
 
 http://simplelineicons.com/
 icon-paper-clip
+
+background:
+url(https://wwwimages2.adobe.com/content/dam/acom/en/lobby/lobby-bg-max2016-loggedin-1400x860.jpg) 35% 100% / cover no-repeat;

@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal} from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal, AsyncStorage} from 'react-native';
 
 import ColorDots from './ColorDots.js';
 
@@ -24,7 +24,6 @@ class TaskForm extends Component {
     static get defaultProps(){
 
     }
-
     _setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
@@ -56,8 +55,8 @@ class TaskForm extends Component {
         this._getSubtask(newTask, this.refs.subtaskDesc1._lastNativeText, 2);
         this._getSubtask(newTask, this.refs.subtaskDesc2._lastNativeText, 2);
         this._getSubtask(newTask, this.refs.subtaskDesc3._lastNativeText, 1);
-
         this.props.taskAction(newTask);
+
         this._setModalVisible(false);
     }
 

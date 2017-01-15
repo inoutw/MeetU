@@ -2,6 +2,7 @@
  * Created by qinai on 12/10/16.
  */
 import React, {Component, PropTypes} from 'react';
+import {AsyncStorage} from 'react-native';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 
@@ -9,15 +10,17 @@ import * as TaskActions from '../actions/actionCreators.js';
 import TaskList from '../components/TaskList.js';
 
 class TaskListContianer extends Component{
-
+    constructor(){
+        super();
+    }
     componentWillMount(){
         // Injected by react-redux:
         let { dispatch } = this.props
-        dispatch(TaskActions.fetchTasksIfNeeded());
+        dispatch(TaskActions.getTasksFormStorage());
     }
     render(){
         let { tasks, dispatch } = this.props
-        console.log("TaskListContainer:: tasks in render is ", tasks);
+        console.log("TaskListContainer:: this.state.tasks in render is ", tasks);
 
         // You want a child component to be completely unaware of Redux.
         let taskActionCreators = bindActionCreators(TaskActions, dispatch);
