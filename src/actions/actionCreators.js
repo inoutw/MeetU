@@ -78,8 +78,8 @@ export function addTask(task){
 //v1: deleteTaskFromStorage
 export const deleteTask = (taskid) => (dispatch, getState) => {
     console.log('actioncreators:: getState() is ', getState());
-    let taskAfterDel = getState().tasks.tasks.filter( task => task.taskid !== taskid);
-    AsyncStorage.setItem('tasks', JSON.stringify(taskAfterDel),(err, result) => {
+    let tasksAfterDel = getState().tasks.tasks.filter( task => task.taskid !== taskid);
+    AsyncStorage.setItem('tasks', JSON.stringify(tasksAfterDel),(err, result) => {
         console.log('actionCreators:: AsyncStorage result is',result);
         return dispatch({
             type: TYPES.DELETE_TASK,

@@ -97,7 +97,7 @@ const TaskList = ({tasks, deleteTask}) => {
         return null;
     }
     return (
-        <ScrollView style={{flex:2}}>
+        <ScrollView style={{flex:7}}>
             <ListView dataSource={this.state.dataSource}
                       renderRow={this._renderRow}
                       renderSeparator={this._renderSeperator}
