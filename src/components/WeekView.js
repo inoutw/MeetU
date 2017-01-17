@@ -2,71 +2,34 @@
  * Created by qinai on 12/27/16.
  */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TextInput} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, AsyncStorage} from 'react-native';
 
 export default class WeekView extends Component{
+    constructor(){
+        super();
+        this.state = {
+            plans: '',
+        }
+    }
+    componentWillMount(){
+        AsyncStorage.getItem("plans", (err, result)=> {
+            console.log('plans result is', result);
+            this.setState({plans:result})});
+    }
     render(){
         return (
             <Image source={require('../static/images/note_back_tiny.png')} style={weekStyle.backgroundImage}>
                 <View style={weekStyle.weekContainer}>
                     <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle} />
+                        <TextInput style={weekStyle.multiInput} multiline={true} ref="todoPlan"
+                                   defaultValue={this.state.plans}
+                                   onEndEditing={() => {
+                                       //console.log("this.refs.todoPlan._lastNativeText is ",this.refs.todoPlan._lastNativeText);
+                                       AsyncStorage.setItem("plans", this.refs.todoPlan._lastNativeText);
+                                   }}
+                        >
+                        </TextInput>
                     </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle} />
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle} />
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle} />
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-                    <View style={weekStyle.textWrap}>
-                        <TextInput style={weekStyle.inputStyle}/>
-                    </View>
-
                 </View>
             </Image>
         )
@@ -83,18 +46,15 @@ const weekStyle = StyleSheet.create({
         resizeMode: 'cover',
     },
     textWrap:{
-        borderBottomWidth: 1,
         borderColor: '#ddd',
         borderStyle: 'solid',
         backgroundColor: 'rgba(0,0,0,0)',
         width: 330,
-        height: 28,
     },
-    inputStyle:{
-        height: 28,
-        flex: 1,
-        fontSize: 13,
+    multiInput:{
+        fontSize: 15,
         marginRight: 3,
+        height: 508,
+        lineHeight: 23,
     }
-
 })

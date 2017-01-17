@@ -5,7 +5,7 @@ import React, {Component, PropTypes} from 'react';
 import {ScrollView, ListView, StyleSheet, View} from 'react-native';
 import Task from './Task.js';
 import {fetchTasksIfNeeded} from '../actions/actionCreators.js';
-//
+//v0:
 // class TaskList extends Component{
 //     static propTypes = {
 //         tasks: PropTypes.array,
@@ -71,7 +71,7 @@ import {fetchTasksIfNeeded} from '../actions/actionCreators.js';
 //
 // export default TaskList;
 
-
+//v1: extract as presentational component
 const TaskList = ({tasks, deleteTask}) => {
     console.log("deleteTask is ", deleteTask);
     console.log("TaskList::tasks is ", tasks);

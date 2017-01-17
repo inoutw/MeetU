@@ -6,10 +6,14 @@ import {View, Text, StyleSheet} from 'react-native';
 import TaskToolTip from './TaskToolTip.js';
 
 const Task = ({ task, taskAction })=>{
-    var taskSymbalStamp = '';
+    /*var taskSymbalStamp = '';
     for(var i=0; i< task.timestamp; i++){
         taskSymbalStamp += '';
     }
+     <View style={taskStyle.rowRight}>
+     <Text style = {taskStyle.rowMark}>{taskSymbalStamp}</Text>
+     </View>
+     */
     return (
         <View style = {taskStyle.rowWrap}>
             <TaskToolTip taskAction={taskAction} priorityNum = {task.priority} taskId={task.taskid}
@@ -17,9 +21,7 @@ const Task = ({ task, taskAction })=>{
             <View style={taskStyle.rowCenter}>
                 <Text style={taskStyle.rowText}>{task.desc}</Text>
             </View>
-            <View style={taskStyle.rowRight}>
-                <Text style = {taskStyle.rowMark}>{taskSymbalStamp}</Text>
-            </View>
+
         </View>
     )
 }

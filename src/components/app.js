@@ -64,7 +64,7 @@ export default class App extends Component{
                     </NavigatorIOS>
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
-                    title="Week"
+                    title="todo"
                     iconName="compass"
                     selected={this.state.selectedTab === 'weekTab'}
                     onPress={() => {
@@ -76,12 +76,12 @@ export default class App extends Component{
                         style={{flex:1}}
                         initialRoute={{
                           component: WeekView,
-                          title: '这周',
+                          title: '我要做',
                         }}>
                     </NavigatorIOS>
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
-                    title="Month"
+                    title="收藏"
                     iconName="calendar"
                     selected={this.state.selectedTab === 'monthTab'}
                     onPress={() => {
@@ -93,12 +93,12 @@ export default class App extends Component{
                         style={{flex:1}}
                         initialRoute={{
                           component: MonthView,
-                          title: '此月',
+                          title: '收藏',
                         }}>
                     </NavigatorIOS>
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
-                    title="Year"
+                    title="我"
                     iconName="directions"
                     selected={this.state.selectedTab === 'yearTab'}
                     onPress={() => {
@@ -110,7 +110,7 @@ export default class App extends Component{
                         style={{flex:1}}
                         initialRoute={{
                           component: YearView,
-                          title: '今年',
+                          title: '我',
                         }}>
                     </NavigatorIOS>
                 </Icon.TabBarItemIOS>
