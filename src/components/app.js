@@ -6,7 +6,7 @@ import {StyleSheet, View, NavigatorIOS, TabBarIOS} from 'react-native';
 
 import TaskListContainer from '../containers/TaskListContianer.js';
 import TaskFormContainer from '../containers/TaskFormContainer.js';
-import WeekView from './WeekView.js';
+import ToDoList from './ToDoList.js';
 import MonthView from './MonthView.js';
 import YearView from './YearView.js';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
@@ -66,16 +66,16 @@ export default class App extends Component{
                 <Icon.TabBarItemIOS
                     title="todo"
                     iconName="compass"
-                    selected={this.state.selectedTab === 'weekTab'}
+                    selected={this.state.selectedTab === 'todoTab'}
                     onPress={() => {
                         this.setState({
-                          selectedTab: 'weekTab',
+                          selectedTab: 'todoTab',
                         });
                       }}>
                     <NavigatorIOS
                         style={{flex:1}}
                         initialRoute={{
-                          component: WeekView,
+                          component: ToDoList,
                           title: '我要做',
                         }}>
                     </NavigatorIOS>
