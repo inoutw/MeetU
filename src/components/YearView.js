@@ -8,7 +8,7 @@ export default class YearView extends Component{
     render(){
         return (
             <View style={yearStyle.yearContainer}>
-                <Text>this is year view</Text>
+                <Text>this is me!</Text>
             </View>
         )
     }

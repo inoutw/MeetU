@@ -2,14 +2,15 @@
  * Created by qinai on 11/20/16.
  */
 import React, {Component} from 'react';
-import {StyleSheet, View, NavigatorIOS, TabBarIOS} from 'react-native';
+import {StyleSheet, View, NavigatorIOS, TabBarIOS, Text} from 'react-native';
 
 import TaskListContainer from '../containers/TaskListContianer.js';
 import TaskFormContainer from '../containers/TaskFormContainer.js';
 import ToDoList from './ToDoList.js';
-import MonthView from './MonthView.js';
+import WeekView from './WeekView.js';
 import YearView from './YearView.js';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
+import dismissKeyboard from 'react-native-dismiss-keyboard';
 
 class TabView extends Component{
     render(){
@@ -83,17 +84,19 @@ export default class App extends Component{
                 <Icon.TabBarItemIOS
                     title="收藏"
                     iconName="calendar"
-                    selected={this.state.selectedTab === 'monthTab'}
+                    selected={this.state.selectedTab === 'preferTab'}
                     onPress={() => {
                         this.setState({
-                          selectedTab: 'monthTab',
+                          selectedTab: 'preferTab',
                         });
                       }}>
                     <NavigatorIOS
                         style={{flex:1}}
                         initialRoute={{
-                          component: MonthView,
+                          component: WeekView,
                           title: '收藏',
+                          rightButtonTitle: '完成',
+                          onRightButtonPress: () => { dismissKeyboard() }
                         }}>
                     </NavigatorIOS>
                 </Icon.TabBarItemIOS>
@@ -132,8 +135,8 @@ const styleMeet = StyleSheet.create({
     container:{
         flex: 1,
         marginTop: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
     },
     // headerContainer:{
     //     height: 75,

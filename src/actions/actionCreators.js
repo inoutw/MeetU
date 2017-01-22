@@ -42,11 +42,22 @@ export const fetchTasksIfNeeded = () => (dispatch, getState) => {
     }
 }
     */
+// AsyncStorage.setItem('tasks', JSON.stringify([{
+//     "taskid": 4,
+//     "priority": 1,
+//     "desc": "Reading and learning",
+//     "timestamp": 5
+// }])
+// );
 //v1: get tasks from AsyncStorage and dispatch a action to update the state in store
 export const getTasksFormStorage = () => (dispatch, getState) => { //?return a function with params dispatch and getState?
     console.log('actioncreators:: getState() is ', getState());
     AsyncStorage.getItem('tasks', (err, result) => {
-        //console.log('actionCreators:: AsyncStorage result is',result);
+        console.log('actionCreators:: AsyncStorage result is',result);
+        //console.log('actionCreators:: AsyncStorage result is',result.length);
+        if(!result || result.length==0||JSON.parse(result).length==0){
+            result = '{"desc": "Add task to start your day","priority":1,"taskid":1}'
+        }
         return dispatch({
             type: TYPES.RECEIVE_TASKS,
             tasks: JSON.parse(result)
@@ -57,7 +68,7 @@ export function addTask(task){
     var taskArr = [];
     AsyncStorage.getItem("tasks")
         .then((result)=> {
-            taskArr = JSON.parse(result);
+            taskArr.push(JSON.parse(result));
             taskArr.push(task);
             AsyncStorage.setItem("tasks", JSON.stringify(taskArr));
         });
@@ -79,6 +90,7 @@ export function addTask(task){
 export const deleteTask = (taskid) => (dispatch, getState) => {
     console.log('actioncreators:: getState() is ', getState());
     let tasksAfterDel = getState().tasks.tasks.filter( task => task.taskid !== taskid);
+    console.log('JSON.stringify(tasksAfterDel)', JSON.stringify(tasksAfterDel));
     AsyncStorage.setItem('tasks', JSON.stringify(tasksAfterDel),(err, result) => {
         console.log('actionCreators:: AsyncStorage result is',result);
         return dispatch({

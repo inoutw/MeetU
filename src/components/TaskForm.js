@@ -3,7 +3,7 @@
  */
 
 import React, {Component, PropTypes} from 'react';
-import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal, AsyncStorage} from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight, TextInput, Modal, AsyncStorage,KeyboardAvoidingView} from 'react-native';
 
 import ColorDots from './ColorDots.js';
 
@@ -76,7 +76,7 @@ class TaskForm extends Component {
                     transparent={this.state.transparent}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {this._setModalVisible(false)}}>
-                    <View style={formStyle.modalContainer}>
+                    <KeyboardAvoidingView  behavior='padding' style={formStyle.modalContainer}>
                         <View style={formStyle.modalView}>
                             <View style={formStyle.addTaskWrap}>
                                 <Text style={formStyle.labelLeft}>Task: </Text>
@@ -133,7 +133,7 @@ class TaskForm extends Component {
                                 </TouchableHighlight>
                             </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                 </Modal>
                 <View style={formStyle.BottomBtnWrap}>
                     <TouchableHighlight style={formStyle.bottomBtn} onPress={this._setModalVisible.bind(this, true)}>

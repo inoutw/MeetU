@@ -6,12 +6,14 @@ import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class ToDoList extends Component{
+
+    
     render(){
         return (
             <View style={todoStyle.todoContainer}>
                 <TouchableHighlight style={todoStyle.todoItem}>
                     <View>
-                        <Icon name="shopping-basket" color="pink" size={18}>
+                        <Icon name="shopping-basket" color="#FF4400" size={18}>
                             <Text> Shopping</Text>
                         </Icon>
                     </View>
@@ -25,15 +27,15 @@ export default class ToDoList extends Component{
                 </TouchableHighlight>
                 <TouchableHighlight style={todoStyle.todoItem}>
                     <View>
-                        <Icon name="book" color="purple" size={18}>
-                            <Text> Movie to watch</Text>
+                        <Icon name="book" color="green" size={18}>
+                            <Text> Book to read</Text>
                         </Icon>
                     </View>
                 </TouchableHighlight>
                 <TouchableHighlight style={todoStyle.todoItem}>
                     <View>
-                        <Icon name="film" color="purple" size={18}>
-                            <Text> Movie to watch</Text>
+                        <Icon name="futbol-o" color="blue" size={18}>
+                            <Text> Play sports</Text>
                         </Icon>
                     </View>
                 </TouchableHighlight>
