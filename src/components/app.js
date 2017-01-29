@@ -6,7 +6,7 @@ import {StyleSheet, View, NavigatorIOS, TabBarIOS, Text} from 'react-native';
 
 import TaskListContainer from '../containers/TaskListContianer.js';
 import TaskFormContainer from '../containers/TaskFormContainer.js';
-import ToDoList from './ToDoList.js';
+import TodoList from './TodoList.js';
 import WeekView from './WeekView.js';
 import YearView from './YearView.js';
 import Icon from 'react-native-vector-icons/SimpleLineIcons.js';
@@ -76,7 +76,7 @@ export default class App extends Component{
                     <NavigatorIOS
                         style={{flex:1}}
                         initialRoute={{
-                          component: ToDoList,
+                          component: TodoList,
                           title: '我要做',
                         }}>
                     </NavigatorIOS>
@@ -134,7 +134,7 @@ const styleMeet = StyleSheet.create({
     },
     container:{
         flex: 1,
-        marginTop: 20,
+        paddingTop: 80,
         paddingLeft: 10,
         paddingRight: 10,
     },

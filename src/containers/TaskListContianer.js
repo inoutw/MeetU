@@ -2,7 +2,7 @@
  * Created by qinai on 12/10/16.
  */
 import React, {Component, PropTypes} from 'react';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Text} from 'react-native';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 
@@ -21,14 +21,16 @@ class TaskListContianer extends Component{
     render(){
         let { tasks, dispatch } = this.props
         console.log("TaskListContainer:: this.state.tasks in render is ", tasks);
-
         // You want a child component to be completely unaware of Redux.
         let taskActionCreators = bindActionCreators(TaskActions, dispatch);
-
-        return (
-            <TaskList tasks={tasks}
-               {...taskActionCreators} />
-        )
+        if(tasks && tasks.length > 0){
+            return (
+                <TaskList tasks={tasks}
+                    {...taskActionCreators} />
+            )
+        }else{
+            return (<Text style={{flex:6}}>Start your day by adding task!</Text>)
+        }
     }
 }
 const mapStateToProps = (state) => {

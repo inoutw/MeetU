@@ -14,8 +14,9 @@ class TaskForm extends Component {
             animationType: 'slide',
             modalVisible: false,
             transparent: true,
-            priorVal: 0,
+            priorVal: 5,
         };
+
     }
     static propTypes = {
         tasks: PropTypes.array,
@@ -42,11 +43,15 @@ class TaskForm extends Component {
     }
 
     _addTask() {
+        console.log("TaskForm:: this.props.tasks is ", this.props.tasks);
         var newTask={}, taskidArr = [];
-        for (item of this.props.tasks) {
-            taskidArr.push(item.taskid);
+        if(this.props.tasks && this.props.tasks.length > 0){
+            for (item of this.props.tasks) {
+                taskidArr.push(item.taskid);
+            }
         }
-        var maxTaskid = Math.max(...taskidArr);
+        console.log('TaskForm:: taskid is ', taskidArr);
+        var maxTaskid = taskidArr.length > 0 ? Math.max(...taskidArr): 0;
         newTask['taskid'] = maxTaskid + 1;
         newTask['priority'] = this.state.priorVal;
         newTask['desc'] = this.refs.taskDesc._lastNativeText;
@@ -55,6 +60,7 @@ class TaskForm extends Component {
         this._getSubtask(newTask, this.refs.subtaskDesc1._lastNativeText, 2);
         this._getSubtask(newTask, this.refs.subtaskDesc2._lastNativeText, 2);
         this._getSubtask(newTask, this.refs.subtaskDesc3._lastNativeText, 1);
+        console.log("TaskForm:: new task to add is ", newTask);
         this.props.taskAction(newTask);
 
         this._setModalVisible(false);

@@ -24,9 +24,9 @@ export default class WeekView extends Component{
                     <View style={weekStyle.textWrap}>
                         <TextInput style={weekStyle.multiInput} multiline={true} ref="todoPlan"
                                    defaultValue={this.state.plans}
-                                   onEndEditing={() => {
-                                       //console.log("this.refs.todoPlan._lastNativeText is ",this.refs.todoPlan._lastNativeText);
-                                       AsyncStorage.setItem("plans", this.refs.todoPlan._lastNativeText);
+                                   onChangeText={(text) => {
+                                       //console.log("text is ",text);
+                                       AsyncStorage.setItem("plans", text);
                                    }}
                         >
                         </TextInput>

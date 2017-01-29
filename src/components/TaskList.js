@@ -86,7 +86,7 @@ const TaskList = ({tasks, deleteTask}) => {
     }
     this._renderSeperator = (sectionID, rowID) => {
         var subdesc = [];
-        if(tasks[rowID].subtask && tasks[rowID].subtask.length > 0){
+        if(tasks[rowID] && tasks[rowID].subtask && tasks[rowID].subtask.length > 0){
             for(let subitem of tasks[rowID].subtask){
                 subdesc.push(
                     <Task key={subitem.desc} task={subitem}/>
@@ -97,7 +97,7 @@ const TaskList = ({tasks, deleteTask}) => {
         return null;
     }
     return (
-        <ScrollView style={{flex:7}}>
+        <ScrollView style={{flex:6}}>
             <ListView dataSource={this.state.dataSource}
                       renderRow={this._renderRow}
                       renderSeparator={this._renderSeperator}

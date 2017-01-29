@@ -55,9 +55,10 @@ export const getTasksFormStorage = () => (dispatch, getState) => { //?return a f
     AsyncStorage.getItem('tasks', (err, result) => {
         console.log('actionCreators:: AsyncStorage result is',result);
         //console.log('actionCreators:: AsyncStorage result is',result.length);
-        if(!result || result.length==0||JSON.parse(result).length==0){
-            result = '{"desc": "Add task to start your day","priority":1,"taskid":1}'
-        }
+        // if(!result || result.length==0||JSON.parse(result).length==0){
+        //     result = '[{"desc": "Add task to start your day","priority":1,"taskid":1}]'
+        // }
+        result = result? result: "[]";
         return dispatch({
             type: TYPES.RECEIVE_TASKS,
             tasks: JSON.parse(result)
