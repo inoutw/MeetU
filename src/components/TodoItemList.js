@@ -5,10 +5,10 @@ import React, {Component, PropTypes} from 'react';
 import {ScrollView, ListView, StyleSheet, View} from 'react-native';
 import TodoItem from './TodoItem.js';
 
-export default class TaskList extends Component{
+export default class TodoItemList extends Component{
     static propTypes = {
         todoItems: PropTypes.array,
-        dispatch: PropTypes.func.isRequired
+        deleteTodoItem: PropTypes.func.isRequired
     }
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ export default class TaskList extends Component{
         };
     }
     render(){
-        const { todoItems, dispatch } = this.props;
+        const { todoItems, deleteTodoItem } = this.props;
         console.log("TodoItemList::this.props.todoItems is ", todoItems);
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2)=>r1 !== r2});
         this.state = {
@@ -29,7 +29,7 @@ export default class TaskList extends Component{
 
         function _renderRow(rowData){
             return (
-                <TodoItem key={rowData.todoItemId} todoItem={rowData}  todoAction={dispatch}/>
+                <TodoItem key={rowData.todoItemId} todoItem={rowData}  todoAction={deleteTodoItem}/>
             );
         }
 

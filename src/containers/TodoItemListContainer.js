@@ -22,10 +22,15 @@ class TodoItemListContainer extends Component{
         let { todoItems, dispatch } = this.props
         console.log("TodoItemListContainer:: this.state.tasks in render is ", todoItems);
         let todoItemActionCreators = bindActionCreators(TodoActions, dispatch);
-        return (
-            <TodoItemList todoItems={todoItems}
-                {...todoItemActionCreators} />
-        )
+        if(todoItems && todoItems.length > 0 ){
+            return (
+                <TodoItemList todoItems={todoItems}
+                    {...todoItemActionCreators} />
+            )
+        }else{
+            return (<Text style={{flex:6}}>Start your day by adding todo item!</Text>)
+        }
+        
 
     }
 }

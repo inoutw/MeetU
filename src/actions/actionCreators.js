@@ -99,5 +99,41 @@ export const deleteTask = (taskid) => (dispatch, getState) => {
             taskid
         })
     });
+}
 
+export const getTodoItemList = () => (dispatch, getState) => {
+    console.log('getTodoItemList:: getState() is ', getState());
+    AsyncStorage.getItem('todoItems', (err, result) => {
+        console.log('actionCreators:: AsyncStorage result is',result);
+        result = result? result: "[]";
+        return dispatch({
+            type: TYPES.RECEIVE_TASKS,
+            tasks: JSON.parse(result)
+        })
+    });
+}
+export function addTodoItem(todoItem){
+    var todoItemArr = [];
+    AsyncStorage.getItem("todoItems")
+        .then((result)=> {
+            todoItemArr.push(JSON.parse(result));
+            todoItemArr.push(todoItem);
+            AsyncStorage.setItem("todoItems", JSON.stringify(todoItemArr));
+        });
+    return {
+        type: TYPES.ADD_TASK,
+        todoItem
+    };
+}
+export const deleteTodoItem = (todoItemId) => (dispatch, getState) => {
+    console.log('actioncreators:: getState() is ', getState());
+    let todoItemsAfterDel = getState().tasks.tasks.filter( task => task.todoItemId !== todoItemId);
+    console.log('JSON.stringify(tasksAfterDel)', JSON.stringify(tasksAfterDel));
+    AsyncStorage.setItem('tasks', JSON.stringify(tasksAfterDel),(err, result) => {
+        console.log('actionCreators:: AsyncStorage result is',result);
+        return dispatch({
+            type: TYPES.DELETE_TASK,
+            taskid
+        })
+    });
 }
